@@ -30,16 +30,44 @@ Lists are declared with brackets.
 let my_list = [1, 2, 3]
 ```
 
+### Access
+Lists are implemented as linked lists. Accessing a specific element of a linked list is done using an auxillary function and runs in O(n) time.
+
+```
+let my_list = [1, 2, 3]
+let second_element = List.nth(my_list, 2)
+```
+
 ## Arrays
 Arrays are declared with brackets followed by a forward slash.
 ```
 let my_array = [/1, 2, 3/]
 ```
 
+### Access
+Arrays can be accessed in O(1) time using brackets.
+```
+let my_array = [/1, 2, 3/]
+let second_element = my_array[1]
+```
+
 ## Dictionaries
 Dictionaries are key value stores that are declared with braces and colons seperating the keys and values.
 ```
 let my_dictionary = {language: "Slice", awesome: True}
+```
+
+Keys can also be values themself.
+```
+let my_dictionary = {"language": "Slice", True: "Is awesome"}
+```
+
+### Access
+Accessing a dictionary can be done with dot notation when the key is not a value itself. Otherwise bracket notation is used.
+```
+let my_dictionary = {language: "Slice", True: "Is awesome"}
+let language = my_dictionary.language
+let is_it_awesome = my_dictionary[True]
 ```
 
 ## Functions
@@ -130,3 +158,30 @@ fn favorite_bread(bread: string):
   puts "Really? That's your favorite?"
 end
 ```
+
+## Conditionals
+Conditonals are done with if, else, and elif
+```
+fn favorite_bread(bread: string):
+  if bread == "rye":
+    puts "A good choice"
+  elif bread == "white":
+    puts "A bland choice"
+  else:
+    puts "I have no opinions on this kind of bread"
+  end
+end
+```
+
+### Boolean operations
+Slice has the following boolean operations:
+* `and`
+* `or`
+* `xor`
+* `==`
+* `!=`
+* `>`
+* `<`
+* `>=`
+* `<=`
+* `!`
