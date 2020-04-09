@@ -145,6 +145,9 @@ let favorite_number: int = int_of_string("6") #Without pipe
 
 ## Pattern Matching
 Pattern matching can done on variable declaration as well function declaration.
+
+### Functions
+Pattern matching can be done with functions by having type literals as function arguments.
 ```
 fn favorite_bread("white"):
   puts "A bland basic choice"
@@ -158,6 +161,19 @@ fn favorite_bread(bread: string):
   puts "Really? That's your favorite?"
 end
 ```
+
+### Variables
+For variables, pattern matching can be done on data structures.
+```
+let [1, 2, | tl] = [1, 2, 3] #[3] is now bound to tl
+let {"bread": "rye", "amount": amount} = {"bread": "rye", "in_stock": True} #True is now bound to amount
+```
+If the left side of the assignment does not match the right side of the assignment an error is thrown.
+
+The pin operator `^` can be used to use a variable's value in a pattern without reassigning it.
+```
+let awesome: True
+let {"language": language, "is_awesome": ^awesome} = {"langauge": "Slice", "is_awesome": True} #"SLice" now bound to language
 
 ## Conditionals
 Conditonals are done with if, else, and elif
