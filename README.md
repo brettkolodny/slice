@@ -1,4 +1,4 @@
-# slice
+# Slice
 A hybrid functional and imperative scripting language
 
 ## Data types
@@ -24,6 +24,24 @@ name = "John" #Ok
 last_name = "Doe" #Bad
 ```
 
+## Lists
+Lists are declared with brackets.
+```
+let my_list = [1, 2, 3]
+```
+
+## Arrays
+Arrays are declared with brackets followed by a forward slash.
+```
+let my_array = [/1, 2, 3/]
+```
+
+## Dictionaries
+Dictionaries are key value stores that are declared with braces and colons seperating the keys and values.
+```
+let my_dictionary = {language: "Slice", awesome: True}
+```
+
 ## Functions
 Functions are declared with the `fn` keyword followed by the function name and arguments and closed with the `end` keyword.
 ```
@@ -43,6 +61,17 @@ If a function returns a value, that is designated with `->` followed by its type
 ```
 fn add_one(num: int) -> int:
   return num + 1
+end
+```
+
+Functions returning boolean values should be named in the format of `function_name?`.
+```
+fn language_is_awesome?(language: string) -> bool:
+  if language == "slice":
+    return true
+  end
+  
+  false
 end
 ```
 
