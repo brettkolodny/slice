@@ -174,6 +174,7 @@ The pin operator `^` can be used to use a variable's value in a pattern without 
 ```
 let awesome: True
 let {"language": language, "is_awesome": ^awesome} = {"langauge": "Slice", "is_awesome": True} #"SLice" now bound to language
+```
 
 ## Conditionals
 Conditonals are done with if, else, and elif
