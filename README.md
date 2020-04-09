@@ -21,7 +21,7 @@ Variables can also be declared with a set type. If a variable is declared in suc
 let name = "Brett"
 let last_name: string = "Kolodny"
 name = "John" #Ok
-last_name = "Doe" #Bad
+last_name = True #Bad
 ```
 
 ## Lists
