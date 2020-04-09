@@ -46,14 +46,14 @@ let my_dictionary = {language: "Slice", awesome: True}
 Functions are declared with the `fn` keyword followed by the function name and arguments and closed with the `end` keyword.
 ```
 fn greeting(name):
-  puts "Hello " + name
+  puts ("Hello " + name)
 end
 ```
 
 Just like variable declaration, function arguments can be declared with types.
 ```
 fn greet(name: string):
-  puts "Hello " + name
+  puts ("Hello " + name)
 end
 ```
 
@@ -86,11 +86,11 @@ Functions can be declared multiple times with different arities or types. Matche
 When an argument is not going to be used, it can be replaced with `_`.
 ```
 fn greet(name: string, greeting: string):
-  puts greeting + " " + name
+  puts (greeting + " " + name)
 end
 
 fn greet(name: string):
-  puts "Hello " + name
+  puts ("Hello " + name)
 end
 
 fn greet(_):
