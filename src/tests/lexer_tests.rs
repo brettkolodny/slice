@@ -46,3 +46,24 @@ fn lexer_test_assign_int() {
     assert!(true);
 }
 
+#[test]
+fn lexer_test_assign_int_long() {
+    let input = "let foo = 1234567890";
+    let expected = [
+        Token::Let,
+        Token::Identity(String::from("foo")),
+        Token::Assign,
+        Token::Int(1234567890),
+    ];
+
+    let mut lexer = Lexer::new(input);
+
+    for i in 0..4 {
+        let token = lexer.next();
+        assert_eq!(token, expected[i]);
+    }
+
+    assert!(true);
+}
+
+

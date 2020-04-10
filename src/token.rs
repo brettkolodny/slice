@@ -17,7 +17,6 @@ pub enum Token {
     RBrace,
     LBracket,
     RBracket,
-    Tab,
     Function,
     Let,
     End,
