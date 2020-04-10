@@ -7,7 +7,6 @@ Slice has the following data types:
 * string
 * int
 * bool
-* Option
 
 ## Variables
 Variables are declared using the `let` keyword. Variables must be declared with a value.
