@@ -1,0 +1,24 @@
+#[derive(PartialEq)]
+#[derive(Clone)]
+#[derive(Debug)]
+pub enum Token {
+    Illegal,
+    EOF,
+    Identity(String),
+    Int(isize),
+    Assign,
+    Plus,
+    Comma,
+    SemiColon,
+    Colon,
+    LParen,
+    RParen,
+    LBrace,
+    RBrace,
+    LBracket,
+    RBracket,
+    Tab,
+    Function,
+    Let,
+    End,
+}
