@@ -2,7 +2,7 @@ use crate::lexer::Lexer;
 use crate::token::Token;
 
 #[test]
-fn lexer_test_basic() {
+fn basic() {
     let input = "=+(){},:;";
     let expected = [
         Token::Assign,
@@ -27,7 +27,7 @@ fn lexer_test_basic() {
 }
 
 #[test]
-fn lexer_test_assign_int() {
+fn assign_int() {
     let input = "let foo = 3";
     let expected = [
         Token::Let,
@@ -47,7 +47,7 @@ fn lexer_test_assign_int() {
 }
 
 #[test]
-fn lexer_test_assign_int_long() {
+fn assign_int_long() {
     let input = "let foo = 1234567890";
     let expected = [
         Token::Let,
@@ -67,7 +67,7 @@ fn lexer_test_assign_int_long() {
 }
 
 #[test]
-fn lexer_test_functions() {
+fn function_basic() {
     let input = "fn test_function(argument):
         3
     end";
@@ -95,7 +95,7 @@ fn lexer_test_functions() {
 }
 
 #[test]
-fn lexer_test_assign_with_type() {
+fn assign_with_type() {
     let input = "let int_type: int = 3
         let bool_type: bool = True";
     let expected = [
@@ -125,7 +125,7 @@ fn lexer_test_assign_with_type() {
 }
 
 #[test]
-fn lexer_test_function_typed_argument() {
+fn function_typed_argument() {
     let input = "fn typed_argument(argument_name: bool):
         True
     end";
@@ -155,7 +155,7 @@ fn lexer_test_function_typed_argument() {
 }
 
 #[test]
-fn lexter_test_function_output() {
+fn function_output() {
     let input = "fn name?(name) -> bool:
         False
     end";
@@ -185,7 +185,7 @@ fn lexter_test_function_output() {
 }
 
 #[test]
-fn lexer_pipe_test() {
+fn pipe() {
     let input = "let fizzBuzz = argument -> upper -> lower";
     let expected = [
         Token::Let,
@@ -209,7 +209,7 @@ fn lexer_pipe_test() {
 }
 
 #[test]
-fn lexer_string_assign_test() {
+fn string_assign() {
     let input = "let a_string = \"Hello World!\"";
     let expected = [
         Token::Let,
@@ -228,7 +228,7 @@ fn lexer_string_assign_test() {
     assert!(true);
 }
 
-fn lexer_unclosed_string_test() {
+fn unclosed_string() {
     let input = "\"Hello world!";
     let expected = [Token::Illegal];
 
