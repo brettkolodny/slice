@@ -56,6 +56,7 @@ impl<'a> Lexer<'a> {
                     ':' => Token::Colon,
                     ';' => Token::SemiColon,
                     ',' => Token::Comma,
+                    '"' => self.get_string(),
                     '\n' => Token::NewLine,
                     '\t' => self.next(),
                     ' ' => self.next(),
@@ -100,5 +101,23 @@ impl<'a> Lexer<'a> {
         }
 
         Token::Minus
+    }
+
+    fn get_string(&mut self) -> Token {
+        let mut string = String::from("");
+
+        let mut character = self.position.next();
+
+        while character.is_some() && character != Some('"') {
+            string.push(character.unwrap());
+
+            character = self.position.next();
+
+            if character.is_none() {
+                return Token::Illegal;
+            }
+        }
+
+        Token::Str(string)
     }
 }

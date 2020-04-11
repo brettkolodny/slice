@@ -18,7 +18,7 @@ fn lexer_test_basic() {
 
     let mut lexer = Lexer::new(input);
 
-    for i in 0..(expected.len()) {
+    for i in 0..expected.len() {
         let token = lexer.next();
         assert_eq!(token, expected[i]);
     }
@@ -38,7 +38,7 @@ fn lexer_test_assign_int() {
 
     let mut lexer = Lexer::new(input);
 
-    for i in 0..(expected.len()) {
+    for i in 0..expected.len() {
         let token = lexer.next();
         assert_eq!(token, expected[i]);
     }
@@ -58,7 +58,7 @@ fn lexer_test_assign_int_long() {
 
     let mut lexer = Lexer::new(input);
 
-    for i in 0..(expected.len()) {
+    for i in 0..expected.len() {
         let token = lexer.next();
         assert_eq!(token, expected[i]);
     }
@@ -86,7 +86,7 @@ fn lexer_test_functions() {
 
     let mut lexer = Lexer::new(input);
 
-    for i in 0..(expected.len()) {
+    for i in 0..expected.len() {
         let token = lexer.next();
         assert_eq!(token, expected[i]);
     }
@@ -116,7 +116,7 @@ fn lexer_test_assign_with_type() {
 
     let mut lexer = Lexer::new(input);
 
-    for i in 0..(expected.len()) {
+    for i in 0..expected.len() {
         let token = lexer.next();
         assert_eq!(token, expected[i]);
     }
@@ -146,7 +146,7 @@ fn lexer_test_function_typed_argument() {
 
     let mut lexer = Lexer::new(input);
 
-    for i in 0..(expected.len()) {
+    for i in 0..expected.len() {
         let token = lexer.next();
         assert_eq!(token, expected[i]);
     }
@@ -176,7 +176,7 @@ fn lexter_test_function_output() {
 
     let mut lexer = Lexer::new(input);
 
-    for i in 0..(expected.len()) {
+    for i in 0..expected.len() {
         let token = lexer.next();
         assert_eq!(token, expected[i]);
     }
@@ -200,7 +200,41 @@ fn lexer_pipe_test() {
 
     let mut lexer = Lexer::new(input);
 
-    for i in 0..(expected.len()) {
+    for i in 0..expected.len() {
+        let token = lexer.next();
+        assert_eq!(token, expected[i]);
+    }
+
+    assert!(true);
+}
+
+#[test]
+fn lexer_string_assign_test() {
+    let input = "let a_string = \"Hello World!\"";
+    let expected = [
+        Token::Let,
+        Token::Identity(String::from("a_string")),
+        Token::Assign,
+        Token::Str(String::from("Hello World!")),
+    ];
+
+    let mut lexer = Lexer::new(input);
+
+    for i in 0..expected.len() {
+        let token = lexer.next();
+        assert_eq!(token, expected[i]);
+    }
+
+    assert!(true);
+}
+
+fn lexer_unclosed_string_test() {
+    let input = "\"Hello world!";
+    let expected = [Token::Illegal];
+
+    let mut lexer = Lexer::new(input);
+
+    for i in 0..expected.len() {
         let token = lexer.next();
         assert_eq!(token, expected[i]);
     }
