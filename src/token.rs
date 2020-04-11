@@ -1,13 +1,15 @@
-#[derive(PartialEq)]
-#[derive(Clone)]
-#[derive(Debug)]
+#[derive(PartialEq, Clone, Debug)]
 pub enum Token {
     Illegal,
     EOF,
     Identity(String),
     Int(isize),
+    True,
+    False,
     Assign,
     Plus,
+    Minus,
+    Divide,
     Comma,
     SemiColon,
     Colon,
@@ -20,4 +22,9 @@ pub enum Token {
     Function,
     Let,
     End,
+    NewLine,
+    StringType,
+    BoolType,
+    IntType,
+    Output,
 }
