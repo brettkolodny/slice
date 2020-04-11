@@ -1,5 +1,5 @@
 #[derive(PartialEq, Clone, Debug)]
-pub enum Token {
+pub enum TokenType {
     Illegal,
     EOF,
     Identity(String),
@@ -38,4 +38,20 @@ pub enum Token {
     BoolType,
     IntType,
     Output,
+}
+
+pub struct Token {
+    pub token_type: TokenType,
+    pub row: u32,
+    pub col: u32,
+}
+
+impl Token {
+    pub fn new(token_type: TokenType, row: u32, col: u32) -> Self {
+        Token {
+            token_type,
+            row,
+            col,
+        }
+    }
 }
