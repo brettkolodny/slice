@@ -1,26 +1,26 @@
 use crate::lexer::Lexer;
-use crate::token::Token;
+use crate::token::TokenType;
 
 #[test]
 fn basic() {
     let input = "=+(){},:;";
     let expected = [
-        Token::Assign,
-        Token::Plus,
-        Token::LParen,
-        Token::RParen,
-        Token::LBrace,
-        Token::RBrace,
-        Token::Comma,
-        Token::Colon,
-        Token::SemiColon,
+        TokenType::Assign,
+        TokenType::Plus,
+        TokenType::LParen,
+        TokenType::RParen,
+        TokenType::LBrace,
+        TokenType::RBrace,
+        TokenType::Comma,
+        TokenType::Colon,
+        TokenType::SemiColon,
     ];
 
     let mut lexer = Lexer::new(input);
 
     for i in 0..expected.len() {
         let token = lexer.next();
-        assert_eq!(token, expected[i]);
+        assert_eq!(token.token_type, expected[i]);
     }
 }
 
@@ -28,17 +28,17 @@ fn basic() {
 fn assign_int() {
     let input = "let foo = 3";
     let expected = [
-        Token::Let,
-        Token::Identity(String::from("foo")),
-        Token::Assign,
-        Token::Int(3),
+        TokenType::Let,
+        TokenType::Identity(String::from("foo")),
+        TokenType::Assign,
+        TokenType::Int(3),
     ];
 
     let mut lexer = Lexer::new(input);
 
     for i in 0..expected.len() {
         let token = lexer.next();
-        assert_eq!(token, expected[i]);
+        assert_eq!(token.token_type, expected[i]);
     }
 }
 
@@ -46,17 +46,17 @@ fn assign_int() {
 fn assign_no_spaces() {
     let input = "let x=3";
     let expected = [
-        Token::Let,
-        Token::Identity(String::from("x")),
-        Token::Assign,
-        Token::Int(3),
+        TokenType::Let,
+        TokenType::Identity(String::from("x")),
+        TokenType::Assign,
+        TokenType::Int(3),
     ];
 
     let mut lexer = Lexer::new(input);
 
     for i in 0..expected.len() {
         let token = lexer.next();
-        assert_eq!(token, expected[i]);
+        assert_eq!(token.token_type, expected[i]);
     }
 }
 
@@ -64,17 +64,17 @@ fn assign_no_spaces() {
 fn assign_int_long() {
     let input = "let foo = 1234567890";
     let expected = [
-        Token::Let,
-        Token::Identity(String::from("foo")),
-        Token::Assign,
-        Token::Int(1234567890),
+        TokenType::Let,
+        TokenType::Identity(String::from("foo")),
+        TokenType::Assign,
+        TokenType::Int(1234567890),
     ];
 
     let mut lexer = Lexer::new(input);
 
     for i in 0..expected.len() {
         let token = lexer.next();
-        assert_eq!(token, expected[i]);
+        assert_eq!(token.token_type, expected[i]);
     }
 }
 
@@ -84,23 +84,23 @@ fn function_basic() {
         3
     end";
     let expected = [
-        Token::Function,
-        Token::Identity(String::from("test_function")),
-        Token::LParen,
-        Token::Identity(String::from("argument")),
-        Token::RParen,
-        Token::Colon,
-        Token::NewLine,
-        Token::Int(3),
-        Token::NewLine,
-        Token::End,
+        TokenType::Function,
+        TokenType::Identity(String::from("test_function")),
+        TokenType::LParen,
+        TokenType::Identity(String::from("argument")),
+        TokenType::RParen,
+        TokenType::Colon,
+        TokenType::NewLine,
+        TokenType::Int(3),
+        TokenType::NewLine,
+        TokenType::End,
     ];
 
     let mut lexer = Lexer::new(input);
 
     for i in 0..expected.len() {
         let token = lexer.next();
-        assert_eq!(token, expected[i]);
+        assert_eq!(token.token_type, expected[i]);
     }
 }
 
@@ -109,26 +109,26 @@ fn assign_with_type() {
     let input = "let int_type: int = 3
         let bool_type: bool = True";
     let expected = [
-        Token::Let,
-        Token::Identity(String::from("int_type")),
-        Token::Colon,
-        Token::IntType,
-        Token::Assign,
-        Token::Int(3),
-        Token::NewLine,
-        Token::Let,
-        Token::Identity(String::from("bool_type")),
-        Token::Colon,
-        Token::BoolType,
-        Token::Assign,
-        Token::True,
+        TokenType::Let,
+        TokenType::Identity(String::from("int_type")),
+        TokenType::Colon,
+        TokenType::IntType,
+        TokenType::Assign,
+        TokenType::Int(3),
+        TokenType::NewLine,
+        TokenType::Let,
+        TokenType::Identity(String::from("bool_type")),
+        TokenType::Colon,
+        TokenType::BoolType,
+        TokenType::Assign,
+        TokenType::True,
     ];
 
     let mut lexer = Lexer::new(input);
 
     for i in 0..expected.len() {
         let token = lexer.next();
-        assert_eq!(token, expected[i]);
+        assert_eq!(token.token_type, expected[i]);
     }
 }
 
@@ -138,25 +138,25 @@ fn function_typed_argument() {
         True
     end";
     let expected = [
-        Token::Function,
-        Token::Identity(String::from("typed_argument")),
-        Token::LParen,
-        Token::Identity(String::from("argument_name")),
-        Token::Colon,
-        Token::BoolType,
-        Token::RParen,
-        Token::Colon,
-        Token::NewLine,
-        Token::True,
-        Token::NewLine,
-        Token::End,
+        TokenType::Function,
+        TokenType::Identity(String::from("typed_argument")),
+        TokenType::LParen,
+        TokenType::Identity(String::from("argument_name")),
+        TokenType::Colon,
+        TokenType::BoolType,
+        TokenType::RParen,
+        TokenType::Colon,
+        TokenType::NewLine,
+        TokenType::True,
+        TokenType::NewLine,
+        TokenType::End,
     ];
 
     let mut lexer = Lexer::new(input);
 
     for i in 0..expected.len() {
         let token = lexer.next();
-        assert_eq!(token, expected[i]);
+        assert_eq!(token.token_type, expected[i]);
     }
 }
 
@@ -166,25 +166,25 @@ fn function_output() {
         False
     end";
     let expected = [
-        Token::Function,
-        Token::Identity(String::from("name?")),
-        Token::LParen,
-        Token::Identity(String::from("name")),
-        Token::RParen,
-        Token::Output,
-        Token::BoolType,
-        Token::Colon,
-        Token::NewLine,
-        Token::False,
-        Token::NewLine,
-        Token::End,
+        TokenType::Function,
+        TokenType::Identity(String::from("name?")),
+        TokenType::LParen,
+        TokenType::Identity(String::from("name")),
+        TokenType::RParen,
+        TokenType::Output,
+        TokenType::BoolType,
+        TokenType::Colon,
+        TokenType::NewLine,
+        TokenType::False,
+        TokenType::NewLine,
+        TokenType::End,
     ];
 
     let mut lexer = Lexer::new(input);
 
     for i in 0..expected.len() {
         let token = lexer.next();
-        assert_eq!(token, expected[i]);
+        assert_eq!(token.token_type, expected[i]);
     }
 }
 
@@ -192,21 +192,21 @@ fn function_output() {
 fn pipe() {
     let input = "let fizzBuzz = argument -> upper -> lower";
     let expected = [
-        Token::Let,
-        Token::Identity(String::from("fizzBuzz")),
-        Token::Assign,
-        Token::Identity(String::from("argument")),
-        Token::Output,
-        Token::Identity(String::from("upper")),
-        Token::Output,
-        Token::Identity(String::from("lower")),
+        TokenType::Let,
+        TokenType::Identity(String::from("fizzBuzz")),
+        TokenType::Assign,
+        TokenType::Identity(String::from("argument")),
+        TokenType::Output,
+        TokenType::Identity(String::from("upper")),
+        TokenType::Output,
+        TokenType::Identity(String::from("lower")),
     ];
 
     let mut lexer = Lexer::new(input);
 
     for i in 0..expected.len() {
         let token = lexer.next();
-        assert_eq!(token, expected[i]);
+        assert_eq!(token.token_type, expected[i]);
     }
 }
 
@@ -214,30 +214,30 @@ fn pipe() {
 fn string_assign() {
     let input = "let a_string = \"Hello World!\"";
     let expected = [
-        Token::Let,
-        Token::Identity(String::from("a_string")),
-        Token::Assign,
-        Token::Str(String::from("Hello World!")),
+        TokenType::Let,
+        TokenType::Identity(String::from("a_string")),
+        TokenType::Assign,
+        TokenType::Str(String::from("Hello World!")),
     ];
 
     let mut lexer = Lexer::new(input);
 
     for i in 0..expected.len() {
         let token = lexer.next();
-        assert_eq!(token, expected[i]);
+        assert_eq!(token.token_type, expected[i]);
     }
 }
 
 #[test]
 fn unclosed_string() {
     let input = "\"Hello world!";
-    let expected = [Token::Illegal];
+    let expected = [TokenType::Illegal];
 
     let mut lexer = Lexer::new(input);
 
     for i in 0..expected.len() {
         let token = lexer.next();
-        assert_eq!(token, expected[i]);
+        assert_eq!(token.token_type, expected[i]);
     }
 }
 
@@ -249,36 +249,36 @@ fn function_complex() {
     end";
 
     let expected = [
-        Token::Function,
-        Token::Identity(String::from("add_one")),
-        Token::LParen,
-        Token::Identity(String::from("num")),
-        Token::Colon,
-        Token::IntType,
-        Token::RParen,
-        Token::Output,
-        Token::IntType,
-        Token::Colon,
-        Token::NewLine,
-        Token::Let,
-        Token::Identity(String::from("new_num")),
-        Token::Colon,
-        Token::IntType,
-        Token::Assign,
-        Token::Identity(String::from("num")),
-        Token::Plus,
-        Token::Int(1),
-        Token::NewLine,
-        Token::Identity(String::from("new_num")),
-        Token::NewLine,
-        Token::End,
+        TokenType::Function,
+        TokenType::Identity(String::from("add_one")),
+        TokenType::LParen,
+        TokenType::Identity(String::from("num")),
+        TokenType::Colon,
+        TokenType::IntType,
+        TokenType::RParen,
+        TokenType::Output,
+        TokenType::IntType,
+        TokenType::Colon,
+        TokenType::NewLine,
+        TokenType::Let,
+        TokenType::Identity(String::from("new_num")),
+        TokenType::Colon,
+        TokenType::IntType,
+        TokenType::Assign,
+        TokenType::Identity(String::from("num")),
+        TokenType::Plus,
+        TokenType::Int(1),
+        TokenType::NewLine,
+        TokenType::Identity(String::from("new_num")),
+        TokenType::NewLine,
+        TokenType::End,
     ];
 
     let mut lexer = Lexer::new(input);
 
     for i in 0..expected.len() {
         let token = lexer.next();
-        assert_eq!(token, expected[i]);
+        assert_eq!(token.token_type, expected[i]);
     }
 }
 
@@ -287,18 +287,18 @@ fn condition_basic() {
     let input = "if x > 3:";
 
     let expected = [
-        Token::If,
-        Token::Identity(String::from("x")),
-        Token::GreaterThan,
-        Token::Int(3),
-        Token::Colon,
+        TokenType::If,
+        TokenType::Identity(String::from("x")),
+        TokenType::GreaterThan,
+        TokenType::Int(3),
+        TokenType::Colon,
     ];
 
     let mut lexer = Lexer::new(input);
 
     for i in 0..expected.len() {
         let token = lexer.next();
-        assert_eq!(token, expected[i]);
+        assert_eq!(token.token_type, expected[i]);
     }
 }
 
@@ -313,35 +313,35 @@ fn condition_complex() {
     end";
 
     let expected = [
-        Token::If,
-        Token::Identity(String::from("num")),
-        Token::Equal,
-        Token::Int(3),
-        Token::Colon,
-        Token::NewLine,
-        Token::True,
-        Token::NewLine,
-        Token::Elif,
-        Token::Identity(String::from("num")),
-        Token::LessThan,
-        Token::Int(3),
-        Token::Colon,
-        Token::NewLine,
-        Token::False,
-        Token::NewLine,
-        Token::Else,
-        Token::Colon,
-        Token::NewLine,
-        Token::True,
-        Token::NewLine,
-        Token::End,
+        TokenType::If,
+        TokenType::Identity(String::from("num")),
+        TokenType::Equal,
+        TokenType::Int(3),
+        TokenType::Colon,
+        TokenType::NewLine,
+        TokenType::True,
+        TokenType::NewLine,
+        TokenType::Elif,
+        TokenType::Identity(String::from("num")),
+        TokenType::LessThan,
+        TokenType::Int(3),
+        TokenType::Colon,
+        TokenType::NewLine,
+        TokenType::False,
+        TokenType::NewLine,
+        TokenType::Else,
+        TokenType::Colon,
+        TokenType::NewLine,
+        TokenType::True,
+        TokenType::NewLine,
+        TokenType::End,
     ];
 
     let mut lexer = Lexer::new(input);
 
     for i in 0..expected.len() {
         let token = lexer.next();
-        assert_eq!(token, expected[i]);
+        assert_eq!(token.token_type, expected[i]);
     }
 }
 
@@ -350,17 +350,17 @@ fn negative_number() {
     let input = "let neg = -23456";
 
     let expected = [
-        Token::Let,
-        Token::Identity(String::from("neg")),
-        Token::Assign,
-        Token::Int(-23456),
+        TokenType::Let,
+        TokenType::Identity(String::from("neg")),
+        TokenType::Assign,
+        TokenType::Int(-23456),
     ];
 
     let mut lexer = Lexer::new(input);
 
     for i in 0..expected.len() {
         let token = lexer.next();
-        assert_eq!(token, expected[i]);
+        assert_eq!(token.token_type, expected[i]);
     }
 }
 
@@ -369,29 +369,29 @@ fn dictionary() {
     let input = "let dict = {arg: True, arg_two: \"two\", \"arg_three\": -3}";
 
     let expected = [
-        Token::Let,
-        Token::Identity(String::from("dict")),
-        Token::Assign,
-        Token::LBrace,
-        Token::Identity(String::from("arg")),
-        Token::Colon,
-        Token::True,
-        Token::Comma,
-        Token::Identity(String::from("arg_two")),
-        Token::Colon,
-        Token::Str(String::from("two")),
-        Token::Comma,
-        Token::Str(String::from("arg_three")),
-        Token::Colon,
-        Token::Int(-3),
-        Token::RBrace,
+        TokenType::Let,
+        TokenType::Identity(String::from("dict")),
+        TokenType::Assign,
+        TokenType::LBrace,
+        TokenType::Identity(String::from("arg")),
+        TokenType::Colon,
+        TokenType::True,
+        TokenType::Comma,
+        TokenType::Identity(String::from("arg_two")),
+        TokenType::Colon,
+        TokenType::Str(String::from("two")),
+        TokenType::Comma,
+        TokenType::Str(String::from("arg_three")),
+        TokenType::Colon,
+        TokenType::Int(-3),
+        TokenType::RBrace,
     ];
 
     let mut lexer = Lexer::new(input);
 
     for i in 0..expected.len() {
         let token = lexer.next();
-        assert_eq!(token, expected[i]);
+        assert_eq!(token.token_type, expected[i]);
     }
 }
 
@@ -400,23 +400,23 @@ fn list() {
     let input = "let list = [1, True, \"three\"]";
 
     let expected = [
-        Token::Let,
-        Token::Identity(String::from("list")),
-        Token::Assign,
-        Token::LBracket,
-        Token::Int(1),
-        Token::Comma,
-        Token::True,
-        Token::Comma,
-        Token::Str(String::from("three")),
-        Token::RBracket,
+        TokenType::Let,
+        TokenType::Identity(String::from("list")),
+        TokenType::Assign,
+        TokenType::LBracket,
+        TokenType::Int(1),
+        TokenType::Comma,
+        TokenType::True,
+        TokenType::Comma,
+        TokenType::Str(String::from("three")),
+        TokenType::RBracket,
     ];
 
     let mut lexer = Lexer::new(input);
 
     for i in 0..expected.len() {
         let token = lexer.next();
-        assert_eq!(token, expected[i]);
+        assert_eq!(token.token_type, expected[i]);
     }
 }
 
@@ -424,12 +424,26 @@ fn list() {
 fn not_equal() {
     let input = "3 != 4";
 
-    let expected = [Token::Int(3), Token::NotEqual, Token::Int(4)];
+    let expected = [TokenType::Int(3), TokenType::NotEqual, TokenType::Int(4)];
 
     let mut lexer = Lexer::new(input);
 
     for i in 0..expected.len() {
         let token = lexer.next();
-        assert_eq!(token, expected[i]);
+        assert_eq!(token.token_type, expected[i]);
+    }
+}
+
+#[test]
+fn correct_column() {
+    let input = "let x = 3";
+
+    let expected = [1, 5, 7, 9];
+
+    let mut lexer = Lexer::new(input);
+
+    for i in 0..expected.len() {
+        let token = lexer.next();
+        assert_eq!(token.col, expected[i]);
     }
 }
