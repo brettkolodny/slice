@@ -47,6 +47,26 @@ fn assign_int() {
 }
 
 #[test]
+fn assign_no_spaces() {
+    let input = "let x=3";
+    let expected = [
+        Token::Let,
+        Token::Identity(String::from("x")),
+        Token::Assign,
+        Token::Int(3)
+    ];
+
+    let mut lexer = Lexer::new(input);
+
+    for i in 0..expected.len() {
+        let token = lexer.next();
+        assert_eq!(token, expected[i]);
+    }
+
+    assert!(true);
+}
+
+#[test]
 fn assign_int_long() {
     let input = "let foo = 1234567890";
     let expected = [
@@ -228,6 +248,7 @@ fn string_assign() {
     assert!(true);
 }
 
+#[test]
 fn unclosed_string() {
     let input = "\"Hello world!";
     let expected = [Token::Illegal];
@@ -241,3 +262,90 @@ fn unclosed_string() {
 
     assert!(true);
 }
+
+#[test]
+fn function_complex() {
+    let input = "fn add_one(num: int) -> int:
+        let new_num: int = num + 1
+        new_num
+    end";
+
+    let expected = [
+        Token::Function,
+        Token::Identity(String::from("add_one")),
+        Token::LParen,
+        Token::Identity(String::from("num")),
+        Token::Colon,
+        Token::IntType,
+        Token::RParen,
+        Token::Output,
+        Token::IntType,
+        Token::Colon,
+        Token::NewLine,
+        Token::Let,
+        Token::Identity(String::from("new_num")),
+        Token::Colon,
+        Token::IntType,
+        Token::Assign,
+        Token::Identity(String::from("num")),
+        Token::Plus,
+        Token::Int(1),
+        Token::NewLine,
+        Token::Identity(String::from("new_num")),
+        Token::NewLine,
+        Token::End,
+    ];
+
+    let mut lexer = Lexer::new(input);
+
+    for i in 0..expected.len() {
+        let token = lexer.next();
+        assert_eq!(token, expected[i]);
+    }
+
+    assert!(true);
+}
+
+#[test]
+fn condition_basic() {
+    let input = "if x > 3:";
+
+    let expected = [
+        Token::If,
+        Token::Identity(String::from("x")),
+        Token::GreaterThan,
+        Token::Int(3),
+        Token::Colon,
+    ];
+
+    let mut lexer = Lexer::new(input);
+
+    for i in 0..expected.len() {
+        let token = lexer.next();
+        assert_eq!(token, expected[i]);
+    }
+
+    assert!(true);
+}
+
+#[test]
+fn negative_number() {
+    let input = "let neg = -23456";
+
+    let expected = [
+        Token::Let,
+        Token::Identity(String::from("neg")),
+        Token::Assign,
+        Token::Int(-23456),
+    ];
+
+    let mut lexer = Lexer::new(input);
+
+    for i in 0..expected.len() {
+        let token = lexer.next();
+        assert_eq!(token, expected[i]);
+    }
+
+    assert!(true);
+}
+

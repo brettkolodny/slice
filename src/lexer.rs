@@ -30,6 +30,11 @@ impl<'a> Lexer<'a> {
                     "string" => Token::StringType,
                     "bool" => Token::BoolType,
                     "int" => Token::IntType,
+                    "if" => Token::If,
+                    "else" => Token::Else,
+                    "elif" => Token::Elif,
+                    "and" => Token::And,
+                    "or" => Token::Or,
                     "True" => Token::True,
                     "False" => Token::False,
                     _ => Token::Identity(word.clone()),
@@ -45,7 +50,10 @@ impl<'a> Lexer<'a> {
                 match c {
                     '=' => Token::Assign,
                     '+' => Token::Plus,
-                    '-' => self.minus_or_pipe(),
+                    '-' => self.minus_or_pipe_or_negative(),
+                    '!' => Token::Not,
+                    '>' => Token::GreaterThan,
+                    '<' => Token::LessThan,
                     '/' => Token::Divide,
                     '(' => Token::LParen,
                     ')' => Token::RParen,
@@ -94,10 +102,19 @@ impl<'a> Lexer<'a> {
         false
     }
 
-    fn minus_or_pipe(&mut self) -> Token {
+    fn minus_or_pipe_or_negative(&mut self) -> Token {
         if self.position.peek() == Some(&'>') {
             self.next();
             return Token::Output;
+        } else if self.position.peek().is_some() {
+            let next_c = self.position.peek().unwrap();
+            if next_c.is_ascii_digit() {
+                let mut negative_number = String::from("-");
+                
+                self.get_rest_of_int(&mut negative_number);
+
+                return Token::Int(negative_number.parse::<isize>().unwrap());
+            }
         }
 
         Token::Minus
