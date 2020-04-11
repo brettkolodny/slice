@@ -110,7 +110,7 @@ impl<'a> Lexer<'a> {
             let next_c = self.position.peek().unwrap();
             if next_c.is_ascii_digit() {
                 let mut negative_number = String::from("-");
-                
+
                 self.get_rest_of_int(&mut negative_number);
 
                 return Token::Int(negative_number.parse::<isize>().unwrap());

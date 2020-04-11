@@ -53,7 +53,7 @@ fn assign_no_spaces() {
         Token::Let,
         Token::Identity(String::from("x")),
         Token::Assign,
-        Token::Int(3)
+        Token::Int(3),
     ];
 
     let mut lexer = Lexer::new(input);
@@ -348,4 +348,3 @@ fn negative_number() {
 
     assert!(true);
 }
-
