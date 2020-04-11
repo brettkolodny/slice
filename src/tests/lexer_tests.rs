@@ -436,14 +436,32 @@ fn not_equal() {
 
 #[test]
 fn correct_column() {
-    let input = "let x = 3";
+    let input = "let
+True";
 
-    let expected = [1, 5, 7, 9];
+    let expected = [1, 4, 1];
 
     let mut lexer = Lexer::new(input);
 
     for i in 0..expected.len() {
         let token = lexer.next();
         assert_eq!(token.col, expected[i]);
+    }
+}
+
+#[test]
+fn correct_row() {
+    let input = "test
+    3 hello
+    True
+    end";
+
+    let expected = [1, 1, 2, 2, 2, 3, 3, 4];
+
+    let mut lexer = Lexer::new(input);
+
+    for i in 0..expected.len() {
+        let token = lexer.next();
+        assert_eq!(token.row, expected[i]);
     }
 }
