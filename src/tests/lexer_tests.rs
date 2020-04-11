@@ -22,8 +22,6 @@ fn basic() {
         let token = lexer.next();
         assert_eq!(token, expected[i]);
     }
-
-    assert!(true);
 }
 
 #[test]
@@ -42,8 +40,6 @@ fn assign_int() {
         let token = lexer.next();
         assert_eq!(token, expected[i]);
     }
-
-    assert!(true);
 }
 
 #[test]
@@ -62,8 +58,6 @@ fn assign_no_spaces() {
         let token = lexer.next();
         assert_eq!(token, expected[i]);
     }
-
-    assert!(true);
 }
 
 #[test]
@@ -82,8 +76,6 @@ fn assign_int_long() {
         let token = lexer.next();
         assert_eq!(token, expected[i]);
     }
-
-    assert!(true);
 }
 
 #[test]
@@ -110,8 +102,6 @@ fn function_basic() {
         let token = lexer.next();
         assert_eq!(token, expected[i]);
     }
-
-    assert!(true);
 }
 
 #[test]
@@ -140,8 +130,6 @@ fn assign_with_type() {
         let token = lexer.next();
         assert_eq!(token, expected[i]);
     }
-
-    assert!(true);
 }
 
 #[test]
@@ -170,8 +158,6 @@ fn function_typed_argument() {
         let token = lexer.next();
         assert_eq!(token, expected[i]);
     }
-
-    assert!(true);
 }
 
 #[test]
@@ -200,8 +186,6 @@ fn function_output() {
         let token = lexer.next();
         assert_eq!(token, expected[i]);
     }
-
-    assert!(true);
 }
 
 #[test]
@@ -224,8 +208,6 @@ fn pipe() {
         let token = lexer.next();
         assert_eq!(token, expected[i]);
     }
-
-    assert!(true);
 }
 
 #[test]
@@ -244,8 +226,6 @@ fn string_assign() {
         let token = lexer.next();
         assert_eq!(token, expected[i]);
     }
-
-    assert!(true);
 }
 
 #[test]
@@ -259,8 +239,6 @@ fn unclosed_string() {
         let token = lexer.next();
         assert_eq!(token, expected[i]);
     }
-
-    assert!(true);
 }
 
 #[test]
@@ -302,8 +280,6 @@ fn function_complex() {
         let token = lexer.next();
         assert_eq!(token, expected[i]);
     }
-
-    assert!(true);
 }
 
 #[test]
@@ -324,8 +300,49 @@ fn condition_basic() {
         let token = lexer.next();
         assert_eq!(token, expected[i]);
     }
+}
 
-    assert!(true);
+#[test]
+fn condition_complex() {
+    let input = "if num == 3:
+        True
+    elif num < 3:
+        False
+    else:
+        True
+    end";
+
+    let expected = [
+        Token::If,
+        Token::Identity(String::from("num")),
+        Token::Equal,
+        Token::Int(3),
+        Token::Colon,
+        Token::NewLine,
+        Token::True,
+        Token::NewLine,
+        Token::Elif,
+        Token::Identity(String::from("num")),
+        Token::LessThan,
+        Token::Int(3),
+        Token::Colon,
+        Token::NewLine,
+        Token::False,
+        Token::NewLine,
+        Token::Else,
+        Token::Colon,
+        Token::NewLine,
+        Token::True,
+        Token::NewLine,
+        Token::End,
+    ];
+
+    let mut lexer = Lexer::new(input);
+
+    for i in 0..expected.len() {
+        let token = lexer.next();
+        assert_eq!(token, expected[i]);
+    }
 }
 
 #[test]
@@ -345,6 +362,74 @@ fn negative_number() {
         let token = lexer.next();
         assert_eq!(token, expected[i]);
     }
+}
 
-    assert!(true);
+#[test]
+fn dictionary() {
+    let input = "let dict = {arg: True, arg_two: \"two\", \"arg_three\": -3}";
+
+    let expected = [
+        Token::Let,
+        Token::Identity(String::from("dict")),
+        Token::Assign,
+        Token::LBrace,
+        Token::Identity(String::from("arg")),
+        Token::Colon,
+        Token::True,
+        Token::Comma,
+        Token::Identity(String::from("arg_two")),
+        Token::Colon,
+        Token::Str(String::from("two")),
+        Token::Comma,
+        Token::Str(String::from("arg_three")),
+        Token::Colon,
+        Token::Int(-3),
+        Token::RBrace,
+    ];
+
+    let mut lexer = Lexer::new(input);
+
+    for i in 0..expected.len() {
+        let token = lexer.next();
+        assert_eq!(token, expected[i]);
+    }
+}
+
+#[test]
+fn list() {
+    let input = "let list = [1, True, \"three\"]";
+
+    let expected = [
+        Token::Let,
+        Token::Identity(String::from("list")),
+        Token::Assign,
+        Token::LBracket,
+        Token::Int(1),
+        Token::Comma,
+        Token::True,
+        Token::Comma,
+        Token::Str(String::from("three")),
+        Token::RBracket,
+    ];
+
+    let mut lexer = Lexer::new(input);
+
+    for i in 0..expected.len() {
+        let token = lexer.next();
+        assert_eq!(token, expected[i]);
+    }
+}
+
+#[test]
+fn not_equal() {
+    let input = "3 != 4";
+
+    let expected = [Token::Int(3), Token::NotEqual, Token::Int(4)];
+
+    let mut lexer = Lexer::new(input);
+
+    for i in 0..expected.len() {
+        let token = lexer.next();
+        assert_eq!(token, expected[i]);
+    }
 }

@@ -48,10 +48,10 @@ impl<'a> Lexer<'a> {
                 Token::Int(int.parse::<isize>().unwrap())
             } else {
                 match c {
-                    '=' => Token::Assign,
+                    '=' => self.get_assign_or_equal(),
                     '+' => Token::Plus,
                     '-' => self.minus_or_pipe_or_negative(),
-                    '!' => Token::Not,
+                    '!' => self.get_not_or_not_equal(),
                     '>' => Token::GreaterThan,
                     '<' => Token::LessThan,
                     '/' => Token::Divide,
@@ -74,6 +74,17 @@ impl<'a> Lexer<'a> {
         } else {
             Token::EOF
         }
+    }
+
+    fn get_not_or_not_equal(&mut self) -> Token {
+        let c_peek = self.position.peek();
+
+        if c_peek.is_some() && c_peek == Some(&'=') {
+            self.position.next();
+            return Token::NotEqual;
+        }
+
+        Token::Not
     }
 
     fn get_rest_of_word(&mut self, word: &mut String) {
@@ -118,6 +129,15 @@ impl<'a> Lexer<'a> {
         }
 
         Token::Minus
+    }
+
+    fn get_assign_or_equal(&mut self) -> Token {
+        if self.position.peek() == Some(&'=') {
+            self.position.next();
+            return Token::Equal;
+        }
+
+        Token::Assign
     }
 
     fn get_string(&mut self) -> Token {

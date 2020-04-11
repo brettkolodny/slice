@@ -12,6 +12,7 @@ pub enum Token {
     Or,
     Not,
     Equal,
+    NotEqual,
     GreaterThan,
     LessThan,
     Plus,
