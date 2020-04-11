@@ -81,9 +81,13 @@ impl<'a> Lexer<'a> {
                     ',' => Token::new(TokenType::Comma, self.row, self.col),
                     '"' => self.get_string(),
                     '\n' => {
+                        let row = self.row;
+                        let col = self.col;
+
                         self.row += 1;
-                        self.col = 1;
-                        Token::new(TokenType::NewLine, self.row, self.col)
+                        self.col = 0;
+
+                        Token::new(TokenType::NewLine, row, col)
                     }
                     '\t' => self.next(),
                     ' ' => self.next(),
