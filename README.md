@@ -9,18 +9,18 @@ Slice has the following data types:
 * bool
 
 ## Variables
-Variables are declared using the `let` keyword. Variables must be declared with a value.
+Variables are declared using the `let` keyword. Variables must be declared with a value and a type.
 ```
-let name = "Brett"
-let favorite_number = 6
-let slice_is_great = True
+let name: string = "Brett"
+let favorite_number: int = 6
+let slice_is_great: bool = True
 ```
-Variables can also be declared with a set type. If a variable is declared in such a way and is then reassigned to a different type an error is thrown.
+After declaration variables can be reassigned to a new value of the same type.
 ```
-let name = "Brett"
+let name: string = "Brett"
 let last_name: string = "Kolodny"
-name = "John" #Ok
-last_name = True #Bad
+name = "John" # Ok
+last_name = True # Bad
 ```
 
 ## Lists
@@ -165,14 +165,14 @@ end
 For variables, pattern matching can be done on data structures.
 ```
 let [1, 2, | tl] = [1, 2, 3] #[3] is now bound to tl
-let {"bread": "rye", "amount": amount} = {"bread": "rye", "in_stock": True} #True is now bound to amount
+let {"bread": "rye", "amount": amount} = {"bread": "rye", "in_stock": True} # True is now bound to amount
 ```
 If the left side of the assignment does not match the right side of the assignment an error is thrown.
 
 The pin operator `^` can be used to use a variable's value in a pattern without reassigning it.
 ```
 let awesome: True
-let {"language": language, "is_awesome": ^awesome} = {"langauge": "Slice", "is_awesome": True} #"SLice" now bound to language
+let {"language": language, "is_awesome": ^awesome} = {"langauge": "Slice", "is_awesome": True} # "Slice" now bound to language
 ```
 
 ## Conditionals
