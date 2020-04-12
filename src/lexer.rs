@@ -80,6 +80,8 @@ impl<'a> Lexer<'a> {
                     ';' => Token::new(TokenType::SemiColon, self.row, self.col),
                     ',' => Token::new(TokenType::Comma, self.row, self.col),
                     '"' => self.get_string(),
+                    '^' => Token::new(TokenType::Pin, self.row, self.col),
+                    '\'' => self.get_character(self.col),
                     '\n' => {
                         let row = self.row;
                         let col = self.col;
@@ -187,6 +189,44 @@ impl<'a> Lexer<'a> {
         }
 
         Token::new(TokenType::Str(string), self.row, self.col)
+    }
+
+    fn get_character(&mut self, col: u32) -> Token {
+        let mut character = String::from("");
+
+        let mut c = self.position.next();
+        self.col += 1;
+
+        while c.is_some() && c != Some('\'') {
+            character.push(c.unwrap());
+
+            c = self.position.next();
+            self.col += 1;
+
+            if c.is_none() {
+                return Token::new(TokenType::Illegal, self.row, col);
+            }
+        }
+
+        if character.is_empty()
+            && c.is_some()
+            && c == Some('\'')
+            && self.position.peek() == Some(&'\'')
+        {
+            self.position.next();
+            self.col += 1;
+            return Token::new(TokenType::Character('\''), self.row, col);
+        }
+
+        if character.len() > 1 || character.is_empty() {
+            return Token::new(TokenType::Illegal, self.row, col);
+        }
+
+        Token::new(
+            TokenType::Character(character.pop().unwrap()),
+            self.row,
+            col,
+        )
     }
 
     fn get_lbracket_or_array(&mut self) -> Token {

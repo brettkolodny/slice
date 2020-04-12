@@ -1,19 +1,11 @@
 use crate::lexer::Lexer;
-use crate::token::TokenType;
+use crate::token::TokenType::*;
 
 #[test]
 fn basic() {
     let input = "=+(){},:;";
     let expected = [
-        TokenType::Assign,
-        TokenType::Plus,
-        TokenType::LParen,
-        TokenType::RParen,
-        TokenType::LBrace,
-        TokenType::RBrace,
-        TokenType::Comma,
-        TokenType::Colon,
-        TokenType::SemiColon,
+        Assign, Plus, LParen, RParen, LBrace, RBrace, Comma, Colon, SemiColon,
     ];
 
     let mut lexer = Lexer::new(input);
@@ -27,12 +19,7 @@ fn basic() {
 #[test]
 fn assign_int() {
     let input = "let foo = 3";
-    let expected = [
-        TokenType::Let,
-        TokenType::Identity(String::from("foo")),
-        TokenType::Assign,
-        TokenType::Int(3),
-    ];
+    let expected = [Let, Identity(String::from("foo")), Assign, Int(3)];
 
     let mut lexer = Lexer::new(input);
 
@@ -45,12 +32,7 @@ fn assign_int() {
 #[test]
 fn assign_no_spaces() {
     let input = "let x=3";
-    let expected = [
-        TokenType::Let,
-        TokenType::Identity(String::from("x")),
-        TokenType::Assign,
-        TokenType::Int(3),
-    ];
+    let expected = [Let, Identity(String::from("x")), Assign, Int(3)];
 
     let mut lexer = Lexer::new(input);
 
@@ -63,12 +45,7 @@ fn assign_no_spaces() {
 #[test]
 fn assign_int_long() {
     let input = "let foo = 1234567890";
-    let expected = [
-        TokenType::Let,
-        TokenType::Identity(String::from("foo")),
-        TokenType::Assign,
-        TokenType::Int(1234567890),
-    ];
+    let expected = [Let, Identity(String::from("foo")), Assign, Int(1234567890)];
 
     let mut lexer = Lexer::new(input);
 
@@ -84,16 +61,16 @@ fn function_basic() {
         3
     end";
     let expected = [
-        TokenType::Function,
-        TokenType::Identity(String::from("test_function")),
-        TokenType::LParen,
-        TokenType::Identity(String::from("argument")),
-        TokenType::RParen,
-        TokenType::Colon,
-        TokenType::NewLine,
-        TokenType::Int(3),
-        TokenType::NewLine,
-        TokenType::End,
+        Function,
+        Identity(String::from("test_function")),
+        LParen,
+        Identity(String::from("argument")),
+        RParen,
+        Colon,
+        NewLine,
+        Int(3),
+        NewLine,
+        End,
     ];
 
     let mut lexer = Lexer::new(input);
@@ -109,19 +86,19 @@ fn assign_with_type() {
     let input = "let int_type: int = 3
         let bool_type: bool = True";
     let expected = [
-        TokenType::Let,
-        TokenType::Identity(String::from("int_type")),
-        TokenType::Colon,
-        TokenType::IntType,
-        TokenType::Assign,
-        TokenType::Int(3),
-        TokenType::NewLine,
-        TokenType::Let,
-        TokenType::Identity(String::from("bool_type")),
-        TokenType::Colon,
-        TokenType::BoolType,
-        TokenType::Assign,
-        TokenType::True,
+        Let,
+        Identity(String::from("int_type")),
+        Colon,
+        IntType,
+        Assign,
+        Int(3),
+        NewLine,
+        Let,
+        Identity(String::from("bool_type")),
+        Colon,
+        BoolType,
+        Assign,
+        True,
     ];
 
     let mut lexer = Lexer::new(input);
@@ -138,18 +115,18 @@ fn function_typed_argument() {
         True
     end";
     let expected = [
-        TokenType::Function,
-        TokenType::Identity(String::from("typed_argument")),
-        TokenType::LParen,
-        TokenType::Identity(String::from("argument_name")),
-        TokenType::Colon,
-        TokenType::BoolType,
-        TokenType::RParen,
-        TokenType::Colon,
-        TokenType::NewLine,
-        TokenType::True,
-        TokenType::NewLine,
-        TokenType::End,
+        Function,
+        Identity(String::from("typed_argument")),
+        LParen,
+        Identity(String::from("argument_name")),
+        Colon,
+        BoolType,
+        RParen,
+        Colon,
+        NewLine,
+        True,
+        NewLine,
+        End,
     ];
 
     let mut lexer = Lexer::new(input);
@@ -166,18 +143,18 @@ fn function_output() {
         False
     end";
     let expected = [
-        TokenType::Function,
-        TokenType::Identity(String::from("name?")),
-        TokenType::LParen,
-        TokenType::Identity(String::from("name")),
-        TokenType::RParen,
-        TokenType::Output,
-        TokenType::BoolType,
-        TokenType::Colon,
-        TokenType::NewLine,
-        TokenType::False,
-        TokenType::NewLine,
-        TokenType::End,
+        Function,
+        Identity(String::from("name?")),
+        LParen,
+        Identity(String::from("name")),
+        RParen,
+        Output,
+        BoolType,
+        Colon,
+        NewLine,
+        False,
+        NewLine,
+        End,
     ];
 
     let mut lexer = Lexer::new(input);
@@ -192,14 +169,14 @@ fn function_output() {
 fn pipe() {
     let input = "let fizzBuzz = argument -> upper -> lower";
     let expected = [
-        TokenType::Let,
-        TokenType::Identity(String::from("fizzBuzz")),
-        TokenType::Assign,
-        TokenType::Identity(String::from("argument")),
-        TokenType::Output,
-        TokenType::Identity(String::from("upper")),
-        TokenType::Output,
-        TokenType::Identity(String::from("lower")),
+        Let,
+        Identity(String::from("fizzBuzz")),
+        Assign,
+        Identity(String::from("argument")),
+        Output,
+        Identity(String::from("upper")),
+        Output,
+        Identity(String::from("lower")),
     ];
 
     let mut lexer = Lexer::new(input);
@@ -214,10 +191,10 @@ fn pipe() {
 fn string_assign() {
     let input = "let a_string = \"Hello World!\"";
     let expected = [
-        TokenType::Let,
-        TokenType::Identity(String::from("a_string")),
-        TokenType::Assign,
-        TokenType::Str(String::from("Hello World!")),
+        Let,
+        Identity(String::from("a_string")),
+        Assign,
+        Str(String::from("Hello World!")),
     ];
 
     let mut lexer = Lexer::new(input);
@@ -229,16 +206,23 @@ fn string_assign() {
 }
 
 #[test]
-fn unclosed_string() {
+fn string_unclosed() {
     let input = "\"Hello world!";
-    let expected = [TokenType::Illegal];
+    let expected = Illegal;
 
     let mut lexer = Lexer::new(input);
 
-    for i in 0..expected.len() {
-        let token = lexer.next();
-        assert_eq!(token.token_type, expected[i]);
-    }
+    assert_eq!(lexer.next().token_type, expected);
+}
+
+#[test]
+fn string_empty() {
+    let input = "\"\"";
+    let expected = Str(String::from(""));
+
+    let mut lexer = Lexer::new(input);
+
+    assert_eq!(lexer.next().token_type, expected);
 }
 
 #[test]
@@ -248,18 +232,18 @@ fn function_unused_argument() {
     end";
 
     let expected = [
-        TokenType::Function,
-        TokenType::Identity(String::from("unused")),
-        TokenType::LParen,
-        TokenType::Identity(String::from("_")),
-        TokenType::RParen,
-        TokenType::Output,
-        TokenType::BoolType,
-        TokenType::Colon,
-        TokenType::NewLine,
-        TokenType::True,
-        TokenType::NewLine,
-        TokenType::End,
+        Function,
+        Identity(String::from("unused")),
+        LParen,
+        Identity(String::from("_")),
+        RParen,
+        Output,
+        BoolType,
+        Colon,
+        NewLine,
+        True,
+        NewLine,
+        End,
     ];
 
     let mut lexer = Lexer::new(input);
@@ -278,29 +262,29 @@ fn function_complex() {
     end";
 
     let expected = [
-        TokenType::Function,
-        TokenType::Identity(String::from("add_one")),
-        TokenType::LParen,
-        TokenType::Identity(String::from("num")),
-        TokenType::Colon,
-        TokenType::IntType,
-        TokenType::RParen,
-        TokenType::Output,
-        TokenType::IntType,
-        TokenType::Colon,
-        TokenType::NewLine,
-        TokenType::Let,
-        TokenType::Identity(String::from("new_num")),
-        TokenType::Colon,
-        TokenType::IntType,
-        TokenType::Assign,
-        TokenType::Identity(String::from("num")),
-        TokenType::Plus,
-        TokenType::Int(1),
-        TokenType::NewLine,
-        TokenType::Identity(String::from("new_num")),
-        TokenType::NewLine,
-        TokenType::End,
+        Function,
+        Identity(String::from("add_one")),
+        LParen,
+        Identity(String::from("num")),
+        Colon,
+        IntType,
+        RParen,
+        Output,
+        IntType,
+        Colon,
+        NewLine,
+        Let,
+        Identity(String::from("new_num")),
+        Colon,
+        IntType,
+        Assign,
+        Identity(String::from("num")),
+        Plus,
+        Int(1),
+        NewLine,
+        Identity(String::from("new_num")),
+        NewLine,
+        End,
     ];
 
     let mut lexer = Lexer::new(input);
@@ -315,13 +299,7 @@ fn function_complex() {
 fn condition_basic() {
     let input = "if x > 3:";
 
-    let expected = [
-        TokenType::If,
-        TokenType::Identity(String::from("x")),
-        TokenType::GreaterThan,
-        TokenType::Int(3),
-        TokenType::Colon,
-    ];
+    let expected = [If, Identity(String::from("x")), GreaterThan, Int(3), Colon];
 
     let mut lexer = Lexer::new(input);
 
@@ -342,28 +320,28 @@ fn condition_complex() {
     end";
 
     let expected = [
-        TokenType::If,
-        TokenType::Identity(String::from("num")),
-        TokenType::Equal,
-        TokenType::Int(3),
-        TokenType::Colon,
-        TokenType::NewLine,
-        TokenType::True,
-        TokenType::NewLine,
-        TokenType::Elif,
-        TokenType::Identity(String::from("num")),
-        TokenType::LessThan,
-        TokenType::Int(3),
-        TokenType::Colon,
-        TokenType::NewLine,
-        TokenType::False,
-        TokenType::NewLine,
-        TokenType::Else,
-        TokenType::Colon,
-        TokenType::NewLine,
-        TokenType::True,
-        TokenType::NewLine,
-        TokenType::End,
+        If,
+        Identity(String::from("num")),
+        Equal,
+        Int(3),
+        Colon,
+        NewLine,
+        True,
+        NewLine,
+        Elif,
+        Identity(String::from("num")),
+        LessThan,
+        Int(3),
+        Colon,
+        NewLine,
+        False,
+        NewLine,
+        Else,
+        Colon,
+        NewLine,
+        True,
+        NewLine,
+        End,
     ];
 
     let mut lexer = Lexer::new(input);
@@ -378,12 +356,7 @@ fn condition_complex() {
 fn negative_number() {
     let input = "let neg = -23456";
 
-    let expected = [
-        TokenType::Let,
-        TokenType::Identity(String::from("neg")),
-        TokenType::Assign,
-        TokenType::Int(-23456),
-    ];
+    let expected = [Let, Identity(String::from("neg")), Assign, Int(-23456)];
 
     let mut lexer = Lexer::new(input);
 
@@ -398,22 +371,22 @@ fn dictionary() {
     let input = "let dict = {arg: True, arg_two: \"two\", \"arg_three\": -3}";
 
     let expected = [
-        TokenType::Let,
-        TokenType::Identity(String::from("dict")),
-        TokenType::Assign,
-        TokenType::LBrace,
-        TokenType::Identity(String::from("arg")),
-        TokenType::Colon,
-        TokenType::True,
-        TokenType::Comma,
-        TokenType::Identity(String::from("arg_two")),
-        TokenType::Colon,
-        TokenType::Str(String::from("two")),
-        TokenType::Comma,
-        TokenType::Str(String::from("arg_three")),
-        TokenType::Colon,
-        TokenType::Int(-3),
-        TokenType::RBrace,
+        Let,
+        Identity(String::from("dict")),
+        Assign,
+        LBrace,
+        Identity(String::from("arg")),
+        Colon,
+        True,
+        Comma,
+        Identity(String::from("arg_two")),
+        Colon,
+        Str(String::from("two")),
+        Comma,
+        Str(String::from("arg_three")),
+        Colon,
+        Int(-3),
+        RBrace,
     ];
 
     let mut lexer = Lexer::new(input);
@@ -429,16 +402,16 @@ fn list() {
     let input = "let list = [1, True, \"three\"]";
 
     let expected = [
-        TokenType::Let,
-        TokenType::Identity(String::from("list")),
-        TokenType::Assign,
-        TokenType::LBracket,
-        TokenType::Int(1),
-        TokenType::Comma,
-        TokenType::True,
-        TokenType::Comma,
-        TokenType::Str(String::from("three")),
-        TokenType::RBracket,
+        Let,
+        Identity(String::from("list")),
+        Assign,
+        LBracket,
+        Int(1),
+        Comma,
+        True,
+        Comma,
+        Str(String::from("three")),
+        RBracket,
     ];
 
     let mut lexer = Lexer::new(input);
@@ -453,7 +426,7 @@ fn list() {
 fn not_equal() {
     let input = "3 != 4";
 
-    let expected = [TokenType::Int(3), TokenType::NotEqual, TokenType::Int(4)];
+    let expected = [Int(3), NotEqual, Int(4)];
 
     let mut lexer = Lexer::new(input);
 
@@ -500,17 +473,17 @@ fn array() {
     let input = "[/1, 2, 3/]/[]/";
 
     let expected = [
-        TokenType::LArray,
-        TokenType::Int(1),
-        TokenType::Comma,
-        TokenType::Int(2),
-        TokenType::Comma,
-        TokenType::Int(3),
-        TokenType::RArray,
-        TokenType::Divide,
-        TokenType::LBracket,
-        TokenType::RBracket,
-        TokenType::Divide,
+        LArray,
+        Int(1),
+        Comma,
+        Int(2),
+        Comma,
+        Int(3),
+        RArray,
+        Divide,
+        LBracket,
+        RBracket,
+        Divide,
     ];
 
     let mut lexer = Lexer::new(input);
@@ -518,5 +491,60 @@ fn array() {
     for i in 0..expected.len() {
         let token = lexer.next();
         assert_eq!(token.token_type, expected[i]);
+    }
+}
+
+#[test]
+fn pin() {
+    let input = "[1, ^x] = [1, 2]";
+
+    let expected = [
+        LBracket,
+        Int(1),
+        Comma,
+        Pin,
+        Identity(String::from("x")),
+        RBracket,
+        Assign,
+        LBracket,
+        Int(1),
+        Comma,
+        Int(2),
+        RBracket,
+    ];
+
+    let mut lexer = Lexer::new(input);
+
+    for i in 0..expected.len() {
+        let token = lexer.next();
+        assert_eq!(token.token_type, expected[i])
+    }
+}
+
+#[test]
+fn character() {
+    let input = "'a' '3' ''' 'abc'";
+
+    let expected = [Character('a'), Character('3'), Character('\''), Illegal];
+
+    let mut lexer = Lexer::new(input);
+
+    for i in 0..expected.len() {
+        let token = lexer.next();
+        assert_eq!(token.token_type, expected[i]);
+    }
+}
+
+#[test]
+fn column_character() {
+    let input = "'a' '3' '123' ''' 'abc'";
+
+    let expected = [1, 5, 9, 15, 19];
+
+    let mut lexer = Lexer::new(input);
+
+    for i in 0..expected.len() {
+        let token = lexer.next();
+        assert_eq!(token.col, expected[i]);
     }
 }

@@ -5,6 +5,7 @@ pub enum TokenType {
     Identity(String),
     Int(isize),
     Str(String),
+    Character(char),
     True,
     False,
     Assign,
@@ -35,10 +36,12 @@ pub enum TokenType {
     Function,
     Let,
     End,
+    Pin,
     NewLine,
     StringType,
     BoolType,
     IntType,
+    CharType,
     Output,
 }
 
