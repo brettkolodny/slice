@@ -465,3 +465,29 @@ fn correct_row() {
         assert_eq!(token.row, expected[i]);
     }
 }
+
+#[test]
+fn array() {
+    let input = "[/1, 2, 3/]/[]/";
+
+    let expected = [
+        TokenType::LArray,
+        TokenType::Int(1),
+        TokenType::Comma,
+        TokenType::Int(2),
+        TokenType::Comma,
+        TokenType::Int(3),
+        TokenType::RArray,
+        TokenType::Divide,
+        TokenType::LBracket,
+        TokenType::RBracket,
+        TokenType::Divide,
+    ];
+
+    let mut lexer = Lexer::new(input);
+
+    for i in 0..expected.len() {
+        let token = lexer.next();
+        assert_eq!(token.token_type, expected[i]);
+    }
+}

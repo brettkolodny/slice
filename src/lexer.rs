@@ -69,10 +69,10 @@ impl<'a> Lexer<'a> {
                     '!' => self.get_not_or_not_equal(),
                     '>' => Token::new(TokenType::GreaterThan, self.row, self.col),
                     '<' => Token::new(TokenType::LessThan, self.row, self.col),
-                    '/' => Token::new(TokenType::Divide, self.row, self.col),
+                    '/' => self.get_slash_or_array(),
                     '(' => Token::new(TokenType::LParen, self.row, self.col),
                     ')' => Token::new(TokenType::RParen, self.row, self.col),
-                    '[' => Token::new(TokenType::LBracket, self.row, self.col),
+                    '[' => self.get_lbracket_or_array(),
                     ']' => Token::new(TokenType::RBracket, self.row, self.col),
                     '{' => Token::new(TokenType::LBrace, self.row, self.col),
                     '}' => Token::new(TokenType::RBrace, self.row, self.col),
@@ -187,5 +187,27 @@ impl<'a> Lexer<'a> {
         }
 
         Token::new(TokenType::Str(string), self.row, self.col)
+    }
+
+    fn get_lbracket_or_array(&mut self) -> Token {
+        let c_peek = self.position.peek();
+
+        if c_peek.is_some() && c_peek == Some(&'/') {
+            self.position.next();
+            return Token::new(TokenType::LArray, self.row, self.col - 1);
+        }
+
+        Token::new(TokenType::LBracket, self.row, self.col)
+    }
+
+    fn get_slash_or_array(&mut self) -> Token {
+        let c_peek = self.position.peek();
+
+        if c_peek.is_some() && c_peek == Some(&']') {
+            self.position.next();
+            return Token::new(TokenType::RArray, self.row, self.col - 1);
+        }
+
+        Token::new(TokenType::Divide, self.row, self.col)
     }
 }

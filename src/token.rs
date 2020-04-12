@@ -30,6 +30,8 @@ pub enum TokenType {
     RBrace,
     LBracket,
     RBracket,
+    LArray,
+    RArray,
     Function,
     Let,
     End,
