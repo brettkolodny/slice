@@ -1,3 +1,5 @@
+use std::fmt;
+
 #[derive(PartialEq, Clone, Debug)]
 pub enum TokenType {
     Illegal,
@@ -43,6 +45,7 @@ pub enum TokenType {
     IntType,
     CharType,
     Output,
+    Return,
 }
 
 pub struct Token {
@@ -58,5 +61,11 @@ impl Token {
             row,
             col,
         }
+    }
+}
+
+impl fmt::Display for Token {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{:?}", self.token_type)
     }
 }

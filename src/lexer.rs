@@ -46,6 +46,7 @@ impl<'a> Lexer<'a> {
                     "or" => Token::new(TokenType::Or, self.row, start_col),
                     "True" => Token::new(TokenType::True, self.row, start_col),
                     "False" => Token::new(TokenType::False, self.row, start_col),
+                    "return" => Token::new(TokenType::Return, self.row, start_col),
                     _ => Token::new(TokenType::Identity(word.clone()), self.row, start_col),
                 }
             } else if c.is_ascii_digit() {
