@@ -537,9 +537,9 @@ fn character() {
 
 #[test]
 fn column_character() {
-    let input = "'a' '3' '123' ''' 'abc'";
+    let input = "'a' '3' '123' ''' 'abc' end";
 
-    let expected = [1, 5, 9, 15, 19];
+    let expected = [1, 5, 9, 15, 19, 25];
 
     let mut lexer = Lexer::new(input);
 
