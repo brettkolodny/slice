@@ -147,10 +147,14 @@ impl<'a> Lexer<'a> {
 
                 self.get_rest_of_int(&mut negative_number);
 
+                let start_col = self.col;
+
+                self.col += (negative_number.len() - 1) as u32;
+
                 return Token::new(
                     TokenType::Int(negative_number.parse::<isize>().unwrap()),
                     self.row,
-                    self.col,
+                    start_col,
                 );
             }
         }
