@@ -23,7 +23,7 @@ impl<'a> Lexer<'a> {
         self.col += 1;
 
         if let Some(c) = character {
-            if c.is_ascii_alphabetic() {
+            if c.is_ascii_alphabetic() || c == '_' {
                 let mut word = String::new();
                 word.push(c);
 

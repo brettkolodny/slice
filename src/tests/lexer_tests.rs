@@ -242,6 +242,35 @@ fn unclosed_string() {
 }
 
 #[test]
+fn function_unused_argument() {
+    let input = "fn unused(_) -> bool:
+        True
+    end";
+
+    let expected = [
+        TokenType::Function,
+        TokenType::Identity(String::from("unused")),
+        TokenType::LParen,
+        TokenType::Identity(String::from("_")),
+        TokenType::RParen,
+        TokenType::Output,
+        TokenType::BoolType,
+        TokenType::Colon,
+        TokenType::NewLine,
+        TokenType::True,
+        TokenType::NewLine,
+        TokenType::End,
+    ];
+
+    let mut lexer = Lexer::new(input);
+
+    for i in 0..expected.len() {
+        let token = lexer.next();
+        assert_eq!(token.token_type, expected[i]);
+    }
+}
+
+#[test]
 fn function_complex() {
     let input = "fn add_one(num: int) -> int:
         let new_num: int = num + 1
