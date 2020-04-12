@@ -436,10 +436,10 @@ fn not_equal() {
 
 #[test]
 fn correct_column() {
-    let input = "let
+    let input = "let -3
 True";
 
-    let expected = [1, 4, 1];
+    let expected = [1, 5, 7, 1];
 
     let mut lexer = Lexer::new(input);
 
