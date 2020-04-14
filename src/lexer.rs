@@ -82,6 +82,7 @@ impl<'a> Lexer<'a> {
                     ',' => Token::new(TokenType::Comma, self.row, self.col),
                     '"' => self.get_string(),
                     '^' => Token::new(TokenType::Pin, self.row, self.col),
+                    '#' => self.token_after_comment(),
                     '\'' => self.get_character(self.col),
                     '\n' => {
                         let row = self.row;
@@ -250,5 +251,22 @@ impl<'a> Lexer<'a> {
         }
 
         Token::new(TokenType::Divide, self.row, self.col)
+    }
+
+    fn token_after_comment(&mut self) -> Token {
+        let mut character = self.position.next();
+
+        while character.is_some() && character != Some('\n') {
+            character = self.position.next();
+        }
+
+        if character.is_none() {
+            Token::new(TokenType::EOF, self.row, self.col)
+        } else {
+            let token = Token::new(TokenType::NewLine, self.row, self.col);
+            self.row += 1;
+            self.col = 0;
+            token
+        }
     }
 }
