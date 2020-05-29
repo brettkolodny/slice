@@ -64,9 +64,9 @@ let my_dictionary = {"language": "Slice", True: "Is awesome"}
 ### Access
 Accessing a dictionary can be done with dot notation when the key is not a value itself. Otherwise bracket notation is used.
 ```
-let my_dictionary = {language: "Slice", True: "Is awesome"}
+let my_dictionary = {language: "Slice", "is awesome": True}
 let language = my_dictionary.language
-let is_it_awesome = my_dictionary[True]
+let is_it_awesome = my_dictionary["is awesome"]
 ```
 
 ## Functions
@@ -95,10 +95,10 @@ Functions returning boolean values should be named in the format of `function_na
 ```
 fn language_is_awesome?(language: string) -> bool:
   if language == "slice":
-    return true
+    return True
   end
   
-  false
+  False
 end
 ```
 
@@ -171,7 +171,7 @@ If the left side of the assignment does not match the right side of the assignme
 
 The pin operator `^` can be used to use a variable's value in a pattern without reassigning it.
 ```
-let awesome: True
+let awesome: bool = True
 let {"language": language, "is_awesome": ^awesome} = {"langauge": "Slice", "is_awesome": True} # "Slice" now bound to language
 ```
 
