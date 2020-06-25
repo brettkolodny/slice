@@ -558,4 +558,3 @@ fn column_character() {
         assert_eq!(token.col, expected[i]);
     }
 }
-

@@ -2,6 +2,7 @@ use std::fmt;
 
 #[derive(PartialEq, Clone, Debug)]
 pub enum TokenType {
+    TMP,
     Illegal,
     EOF,
     Identity(String),
@@ -48,6 +49,13 @@ pub enum TokenType {
     Return,
 }
 
+impl Default for TokenType {
+    fn default() -> Self {
+        TokenType::TMP
+    }
+}
+
+#[derive(Clone, Default)]
 pub struct Token {
     pub token_type: TokenType,
     pub row: u32,
