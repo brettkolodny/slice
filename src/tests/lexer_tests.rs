@@ -226,6 +226,16 @@ fn string_empty() {
 }
 
 #[test]
+fn string_within_string() {
+    let input = "\"\"\"";
+    let expected = Str(String::from("\""));
+
+    let mut lexer = Lexer::new(input);
+
+    assert_eq!(lexer.next().token_type, expected);
+}
+
+#[test]
 fn function_unused_argument() {
     let input = "fn unused(_) -> bool:
         True
@@ -548,3 +558,4 @@ fn column_character() {
         assert_eq!(token.col, expected[i]);
     }
 }
+

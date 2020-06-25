@@ -1,6 +1,8 @@
 #![allow(dead_code)]
 mod lexer;
 mod token;
+mod ast;
+mod parser;
 
 #[cfg(test)]
 mod tests;
