@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 use crate::ast::{Expression, Statement};
-=======
-use crate::ast::Statement;
->>>>>>> 10d471eb2ade24717232ef856971301e1dc0d428
 use crate::lexer::Lexer;
 use crate::parser::Parser;
 use crate::token::TokenType;
@@ -38,7 +34,6 @@ fn let_string_basic() {
         assert_eq!(ls.var_type.token_type, TokenType::StringType);
     }
 }
-<<<<<<< HEAD
 
 #[test]
 fn return_value_int() {
@@ -73,5 +68,3 @@ fn end_test_valid() {
         assert!(false);
     }
 }
-=======
->>>>>>> 10d471eb2ade24717232ef856971301e1dc0d428

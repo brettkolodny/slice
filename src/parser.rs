@@ -1,16 +1,8 @@
-<<<<<<< HEAD
 use crate::ast::{Ast, Expression, Statement};
-=======
->>>>>>> 10d471eb2ade24717232ef856971301e1dc0d428
 use crate::lexer::Lexer;
 use crate::token::{Token, TokenType};
 use std::mem;
 
-<<<<<<< HEAD
-=======
-use crate::ast::{Ast, Expression, Statement};
-
->>>>>>> 10d471eb2ade24717232ef856971301e1dc0d428
 pub struct Parser<'a> {
     lexer: Lexer<'a>,
     current_token: Token,
@@ -29,7 +21,6 @@ impl<'a> Parser<'a> {
         }
     }
 
-<<<<<<< HEAD
     fn advance_tokens(&mut self) {
         std::mem::swap(&mut self.peek_token, &mut self.current_token);
         self.peek_token = self.lexer.next();
@@ -39,23 +30,12 @@ impl<'a> Parser<'a> {
         let mut ast = Ast::new();
         while self.current_token.token_type != TokenType::EOF {
             ast.push(self.parse_statement()?);
-=======
-    pub fn parse_program(&mut self) -> Result<Ast, String> {
-        let mut ast = Ast::new();
-        while self.current_token.token_type != TokenType::EOF {
-            if self.current_token.token_type == TokenType::Let {
-                let let_statement = self.parse_let()?;
-                ast.push(let_statement)
-            }
-
->>>>>>> 10d471eb2ade24717232ef856971301e1dc0d428
             self.advance_tokens();
         }
 
         Ok(ast)
     }
 
-<<<<<<< HEAD
     fn parse_statement(&mut self) -> Result<Statement, String> {
         match self.current_token.token_type {
             TokenType::Let => self.parse_let(),
@@ -66,14 +46,6 @@ impl<'a> Parser<'a> {
     }
 
     fn parse_let(&mut self) -> Result<Statement, String> {
-=======
-    pub fn advance_tokens(&mut self) {
-        std::mem::swap(&mut self.peek_token, &mut self.current_token);
-        self.peek_token = self.lexer.next();
-    }
-
-    pub fn parse_let(&mut self) -> Result<Statement, String> {
->>>>>>> 10d471eb2ade24717232ef856971301e1dc0d428
         self.advance_tokens();
 
         let identifier = self.parse_identifier()?;
@@ -84,11 +56,7 @@ impl<'a> Parser<'a> {
             self.advance_tokens();
         } else {
             return Err(format!(
-<<<<<<< HEAD
                 "Unexpected token expected ':', got {} {}.{}",
-=======
-                "Unexpected token expected ':' {} {}.{}",
->>>>>>> 10d471eb2ade24717232ef856971301e1dc0d428
                 self.current_token, self.current_token.row, self.current_token.col
             ));
         }
@@ -101,11 +69,7 @@ impl<'a> Parser<'a> {
             self.advance_tokens()
         } else {
             return Err(format!(
-<<<<<<< HEAD
                 "Unexpected token expected '=', got {} {}.{}",
-=======
-                "Unexpected token expected '=' {} {}.{}",
->>>>>>> 10d471eb2ade24717232ef856971301e1dc0d428
                 self.current_token, self.current_token.row, self.current_token.col
             ));
         }
@@ -116,7 +80,6 @@ impl<'a> Parser<'a> {
 
         Ok(Statement::new_let_statement(identifier, let_type, expr))
     }
-<<<<<<< HEAD
     
     fn parse_return(&mut self) -> Result<Statement, String> {
         self.advance_tokens();
@@ -137,65 +100,38 @@ impl<'a> Parser<'a> {
     }
 
     fn parse_expression(&mut self) -> Result<Expression, String> {
-=======
-
-    pub fn parse_expression(&mut self) -> Result<Expression, String> {
->>>>>>> 10d471eb2ade24717232ef856971301e1dc0d428
         match &self.current_token.token_type {
             TokenType::Str(_)
             | TokenType::Int(_)
             | TokenType::Character(_)
             | TokenType::False
-<<<<<<< HEAD
             | TokenType::True => Ok(Expression::Value(mem::take(&mut self.current_token))),
             _ => Err(format!(
                 "Unexpected token expected value, got {} {}.{}",
-=======
-            | TokenType::True => Ok(Expression::Value(
-                mem::take(&mut self.current_token))),
-            _ => Err(format!(
-                "Unexpected token expected value {} {}.{}",
->>>>>>> 10d471eb2ade24717232ef856971301e1dc0d428
                 self.current_token, self.current_token.row, self.current_token.col
             )),
         }
     }
 
-<<<<<<< HEAD
     fn parse_type(&mut self) -> Result<Token, String> {
-=======
-    pub fn parse_type(&mut self) -> Result<Token, String> {
->>>>>>> 10d471eb2ade24717232ef856971301e1dc0d428
         match &self.current_token.token_type {
             TokenType::StringType
             | TokenType::IntType
             | TokenType::CharType
             | TokenType::BoolType => Ok(mem::take(&mut self.current_token)),
             _ => Err(format!(
-<<<<<<< HEAD
                 "Unexpected token expected type, got {} {}.{}",
-=======
-                "Unexpected token expected type {} {}.{}",
->>>>>>> 10d471eb2ade24717232ef856971301e1dc0d428
                 self.current_token, self.current_token.row, self.current_token.col
             )),
         }
     }
 
-<<<<<<< HEAD
     fn parse_identifier(&mut self) -> Result<Token, String> {
-=======
-    pub fn parse_identifier(&mut self) -> Result<Token, String> {
->>>>>>> 10d471eb2ade24717232ef856971301e1dc0d428
         if let TokenType::Identity(_) = &self.current_token.token_type {
             Ok(mem::take(&mut self.current_token))
         } else {
             Err(format!(
-<<<<<<< HEAD
                 "Unexpected token expected Identity, got {} {}.{}",
-=======
-                "Invalid indtifier {}, expected Identity {}.{}",
->>>>>>> 10d471eb2ade24717232ef856971301e1dc0d428
                 self.current_token, self.current_token.row, self.current_token.col
             ))
         }

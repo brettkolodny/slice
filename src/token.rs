@@ -55,11 +55,7 @@ impl Default for TokenType {
     }
 }
 
-<<<<<<< HEAD
 #[derive(Clone, Default, Debug)]
-=======
-#[derive(Clone, Default)]
->>>>>>> 10d471eb2ade24717232ef856971301e1dc0d428
 pub struct Token {
     pub token_type: TokenType,
     pub row: u32,
