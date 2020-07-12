@@ -6,6 +6,7 @@ pub type Ast = Vec<Statement>;
 pub enum Statement {
     Let(LetStatement),
     Return(Expression),
+    Expr(Expression),
     End,
 }
 
@@ -35,4 +36,10 @@ impl LetStatement {
 #[derive(Clone, Debug)]
 pub enum Expression {
     Value(Token),
+}
+
+trait Pratt {
+    fn infix(&self) -> Expression;
+
+    fn pefix(&self, expr: Expression) -> Expression;
 }
