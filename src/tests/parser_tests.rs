@@ -68,3 +68,34 @@ fn end_test_valid() {
         assert!(false);
     }
 }
+
+#[test]
+fn prefix_test() {
+    let input = "!True";
+    let lexer = Lexer::new(input);
+
+    let mut parser = Parser::new(lexer);
+    let ast = parser.parse_program().unwrap();
+
+    let stmnt = &ast[0];
+
+    if let Statement::Expr(v) = stmnt {
+        assert!(true);
+    } else {
+        assert!(false);
+    }
+
+    let input = "-foo";
+    let lexer = Lexer::new(input);
+
+    let mut parser = Parser::new(lexer);
+    let ast = parser.parse_program().unwrap();
+
+    let stmnt = &ast[0];
+
+    if let Statement::Expr(v) = stmnt {
+        assert!(true);
+    } else {
+        assert!(false);
+    }
+}

@@ -41,8 +41,18 @@ impl<'a> Parser<'a> {
             TokenType::Let => self.parse_let(),
             TokenType::Return => self.parse_return(),
             TokenType::End => self.parse_end(),
+            TokenType::Not | TokenType::Minus => self.parse_not(),
             _ => Err(format!("Error")),
         }
+    }
+
+    fn parse_not(&mut self) -> Result<Statement, String> {
+        let operator = mem::take(&mut self.current_token);
+        self.advance_tokens();
+
+        let expression = self.parse_expression()?;
+
+        Ok(Statement::new_prefix_statement(operator, expression))
     }
 
     fn parse_let(&mut self) -> Result<Statement, String> {
@@ -80,7 +90,7 @@ impl<'a> Parser<'a> {
 
         Ok(Statement::new_let_statement(identifier, let_type, expr))
     }
-    
+
     fn parse_return(&mut self) -> Result<Statement, String> {
         self.advance_tokens();
 
@@ -95,7 +105,10 @@ impl<'a> Parser<'a> {
             self.advance_tokens();
             Ok(Statement::End)
         } else {
-            Err(format!("Expected new line, got {} {}.{}", self.peek_token, self.peek_token.row, self.peek_token.col))
+            Err(format!(
+                "Expected new line, got {} {}.{}",
+                self.peek_token, self.peek_token.row, self.peek_token.col
+            ))
         }
     }
 
@@ -105,6 +118,7 @@ impl<'a> Parser<'a> {
             | TokenType::Int(_)
             | TokenType::Character(_)
             | TokenType::False
+            | TokenType::Identity(_)
             | TokenType::True => Ok(Expression::Value(mem::take(&mut self.current_token))),
             _ => Err(format!(
                 "Unexpected token expected value, got {} {}.{}",

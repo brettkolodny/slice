@@ -14,6 +14,11 @@ impl Statement {
     pub fn new_let_statement(name: Token, var_type: Token, expression: Expression) -> Self {
         Statement::Let(LetStatement::new(name, var_type, expression))
     }
+
+    pub fn new_prefix_statement(operator: Token, right: Expression) -> Self {
+        let right = Box::<Expression>::new(right);
+        Statement::Expr(Expression::Prefix(PrefixExpr { operator, right }))
+    }
 }
 
 #[derive(Clone, Debug)]
@@ -36,6 +41,13 @@ impl LetStatement {
 #[derive(Clone, Debug)]
 pub enum Expression {
     Value(Token),
+    Prefix(PrefixExpr),
+}
+
+#[derive(Clone, Debug)]
+pub struct PrefixExpr {
+    operator: Token,
+    right: Box<Expression>,
 }
 
 trait Pratt {
